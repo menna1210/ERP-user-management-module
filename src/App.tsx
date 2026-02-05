@@ -75,8 +75,7 @@ function App() {
           <>
             <UserTable users={currentUsers} />
             
-            {/* Pagination Modern Design */}
-           {/* Pagination Modern with Prev/Next */}
+            
 {totalPages > 1 && (
   <div className="mt-16 flex justify-center items-center gap-2 md:gap-4">
     <button 

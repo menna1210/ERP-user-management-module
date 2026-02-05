@@ -6,14 +6,14 @@ interface UserState {
     users: User[];
     loading: boolean;
     error: string | null;
-    selectedUser: User | null; // موجودة في الـ Interface تمام
+    selectedUser: User | null; 
 }
 
 const initialState: UserState = {
     users: [],
     loading: false,
     error: null,
-    selectedUser: null, // لازم تضاف هنا كمان
+    selectedUser: null, 
 }
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
@@ -24,7 +24,6 @@ const userSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        // الـ Reducers دي هي اللي هتمنع الـ Props Drilling
         setSelectedUser: (state, action) => {
             state.selectedUser = action.payload;
         },
@@ -49,5 +48,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { setSelectedUser, clearSelectedUser } = userSlice.actions; // تصدير الأكشنز
+export const { setSelectedUser, clearSelectedUser } = userSlice.actions; 
 export default userSlice.reducer;
