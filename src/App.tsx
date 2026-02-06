@@ -27,7 +27,11 @@ function App() {
   const totalPages = Math.ceil((filteredUsers?.length || 0) / usersPerPage);
   const currentUsers = filteredUsers.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage);
 
-  if (error) return <div className="h-screen flex items-center justify-center text-red-500 font-bold tracking-widest uppercase">Error: {error}</div>;
+  if (error) return (
+    <div className="h-screen flex items-center justify-center text-red-500 font-bold tracking-widest uppercase bg-slate-50 dark:bg-slate-950">
+      Error: {error}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 font-poppins p-6 md:p-12">
@@ -37,7 +41,10 @@ function App() {
           <h1 className="text-2xl font-black uppercase tracking-tighter text-blue-600 dark:text-white">
             Users Management Module
           </h1>
-          <button onClick={toggleDarkMode} className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform">
+          <button 
+            onClick={toggleDarkMode} 
+            className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform"
+          >
             {isDarkMode ? (
               <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
             ) : (
@@ -47,13 +54,11 @@ function App() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="relative">
-             <input 
-              type="text" placeholder="Search users..." 
-              className="w-full px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-blue-500/10 font-medium dark:text-white transition-all"
-              value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
-            />
-          </div>
+          <input 
+            type="text" placeholder="Search users..." 
+            className="w-full px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-blue-500/10 font-medium dark:text-white transition-all"
+            value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
+          />
           <select 
             className="px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none font-bold text-slate-500 dark:text-slate-300"
             value={selectedCity} onChange={(e) => {setSelectedCity(e.target.value); setCurrentPage(1);}}
