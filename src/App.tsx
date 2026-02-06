@@ -97,7 +97,7 @@ function App() {
                   {Array.from({ length: totalPages }).map((_, i) => (
                     <button 
                       key={i} onClick={() => setCurrentPage(i + 1)}
-                      className={`w-12 h-12 flex items-center justify-center text-sm font-black transition-all rounded-2xl ${currentPage === i + 1 ? 'bg-blue-600 text-white shadow-xl shadow-blue-500/30 scale-110' : 'bg-white dark:bg-slate-900 text-slate-400 border border-slate-100 dark:border-slate-800'}`}
+                      className={`w-12 h-12 flex items-center justify-center text-sm font-black transition-all rounded-2xl ${currentPage === i + 1 ? 'bg-blue-600 text-white  scale-110' : 'bg-white dark:bg-slate-900 text-slate-400 border border-slate-100 dark:border-slate-800'}`}
                     >
                       {i + 1}
                     </button>
