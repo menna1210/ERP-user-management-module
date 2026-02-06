@@ -7,27 +7,46 @@ export const useUserFilters = (users: User[]) => {
   const [sortBy, setSortBy] = useState<'name' | 'email' | ''>('');
 
   const filteredUsers = useMemo(() => {
-    const safeUsers = Array.isArray(users) ? users : [];
-    let result = [...safeUsers];
+    let filtered = users.filter(user => {
+      const firstName = user.firstName.toLowerCase();
+      const lastName = user.lastName.toLowerCase();
+      const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+      const email = user.email.toLowerCase();
+      const search = searchTerm.toLowerCase();
 
-    if (searchTerm.trim()) {
-      const term = searchTerm.toLowerCase();
-      result = result.filter(u => 
-        `${u.firstName} ${u.lastName}`.toLowerCase().includes(term) || 
-        u.email.toLowerCase().includes(term)
-      );
+      const matchesSearch = 
+        firstName.startsWith(search) || 
+        lastName.startsWith(search) || 
+        fullName.startsWith(search) ||
+        email.startsWith(search);
+
+      const matchesCity = selectedCity === '' || user.address.city === selectedCity;
+
+      return matchesSearch && matchesCity;
+    });
+
+    if (sortBy === 'name') {
+      filtered.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    } else if (sortBy === 'email') {
+      filtered.sort((a, b) => a.email.localeCompare(b.email));
     }
-    if (selectedCity) result = result.filter(u => u.address?.city === selectedCity);
-    if (sortBy === 'name') result.sort((a, b) => (a.firstName || '').localeCompare(b.firstName || ''));
-    if (sortBy === 'email') result.sort((a, b) => (a.email || '').localeCompare(b.email || ''));
-    
-    return result;
+
+    return filtered;
   }, [users, searchTerm, selectedCity, sortBy]);
 
   const cities = useMemo(() => {
-    const safeUsers = Array.isArray(users) ? users : [];
-    return Array.from(new Set(safeUsers.map(u => u.address?.city).filter(Boolean))).sort();
+    const allCities = users.map(user => user.address.city);
+    return Array.from(new Set(allCities));
   }, [users]);
 
-  return { searchTerm, setSearchTerm, selectedCity, setSelectedCity, sortBy, setSortBy, filteredUsers, cities };
+  return {
+    searchTerm,
+    setSearchTerm,
+    selectedCity,
+    setSelectedCity,
+    sortBy,
+    setSortBy,
+    filteredUsers,
+    cities
+  };
 };

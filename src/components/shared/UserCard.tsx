@@ -1,6 +1,7 @@
 import type { User } from '../../types/user';
 import { useDispatch } from 'react-redux';
 import { setSelectedUser } from '../../store/userSlice';
+import { motion } from 'framer-motion'; // استيراد مكتبة الأنميشن
 
 interface UserCardProps {
   user: User;
@@ -10,7 +11,13 @@ const UserCard = ({ user }: UserCardProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}   
+      transition={{ duration: 0.5 }}  
+      whileHover={{ y: -10 }}         
+      className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-blue-500/10 transition-shadow duration-500 group"
+    >
       <div className="flex flex-col items-center text-center">
         <div className="relative mb-6">
           <div className="absolute inset-0 bg-blue-500 rounded-[2.2rem] rotate-6 group-hover:rotate-12 transition-transform duration-500 opacity-10"></div>
@@ -39,12 +46,12 @@ const UserCard = ({ user }: UserCardProps) => {
 
         <button 
           onClick={() => dispatch(setSelectedUser(user))}
-          className="w-full py-4 bg-blue-500 dark:bg-white text-white dark:text-slate-900 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-300 transform active:scale-95 shadow-xl shadow-slate-200 dark:shadow-none"
+          className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-300 transform active:scale-95 shadow-xl shadow-slate-200 dark:shadow-none"
         >
-          View Profile
+          View Details
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

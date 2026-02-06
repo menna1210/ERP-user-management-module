@@ -34,8 +34,8 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 font-poppins p-6 md:p-12">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen w-full overflow-x-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-500 font-poppins p-4 md:p-12">
+      <div className="max-w-6xl mx-auto w-full">
         
         <header className="mb-16 flex justify-between items-center">
           <h1 className="text-2xl font-black uppercase tracking-tighter text-blue-600 dark:text-white">
@@ -56,18 +56,18 @@ function App() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <input 
             type="text" placeholder="Search users..." 
-            className="w-full px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-blue-500/10 font-medium dark:text-white transition-all"
+            className="w-full px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-blue-500/10 font-medium text-slate-900 dark:text-white transition-all placeholder:text-slate-400"
             value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
           />
           <select 
-            className="px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none font-bold text-slate-500 dark:text-slate-300"
+            className="px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none font-bold text-slate-900 dark:text-slate-300"
             value={selectedCity} onChange={(e) => {setSelectedCity(e.target.value); setCurrentPage(1);}}
           >
             <option value="">All Cities</option>
             {cities.map(city => <option key={city} value={city}>{city}</option>)}
           </select>
           <select 
-            className="px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none font-bold text-slate-500 dark:text-slate-300"
+            className="px-6 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] outline-none font-bold text-slate-900 dark:text-slate-300"
             value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}
           >
             <option value="">Sort By</option>
@@ -80,11 +80,26 @@ function App() {
           <div className="py-40 text-center font-black text-blue-600 animate-pulse tracking-[0.3em] uppercase">Loading Database...</div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentUsers.map(user => <UserCard key={user.id} user={user} />)}
-            </div>
+            {currentUsers.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {currentUsers.map(user => <UserCard key={user.id} user={user} />)}
+              </div>
+            ) : (
+              <div className="py-20 text-center flex flex-col items-center justify-center">
+                <div className="bg-white dark:bg-slate-900 p-6 rounded-full mb-4 shadow-sm">
+                  <svg className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">No Users Found</h3>
+                <p className="text-slate-500 dark:text-slate-400 max-w-xs mx-auto text-sm">
+                  We couldn't find any results for "<span className="font-bold text-blue-600">{searchTerm}</span>".
+                </p>
+                <button onClick={() => setSearchTerm('')} className="mt-6 text-blue-600 text-sm font-black uppercase tracking-widest hover:underline">Clear Search</button>
+              </div>
+            )}
 
-            {totalPages > 1 && (
+            {totalPages > 1 && currentUsers.length > 0 && (
               <div className="mt-20 flex justify-center items-center gap-4">
                 <button 
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
@@ -97,7 +112,7 @@ function App() {
                   {Array.from({ length: totalPages }).map((_, i) => (
                     <button 
                       key={i} onClick={() => setCurrentPage(i + 1)}
-                      className={`w-12 h-12 flex items-center justify-center text-sm font-black transition-all rounded-2xl ${currentPage === i + 1 ? 'bg-blue-600 text-white  scale-110' : 'bg-white dark:bg-slate-900 text-slate-400 border border-slate-100 dark:border-slate-800'}`}
+                      className={`w-12 h-12 flex items-center justify-center text-sm font-black transition-all rounded-2xl ${currentPage === i + 1 ? 'bg-blue-600 text-white shadow-xl  scale-110' : 'bg-white dark:bg-slate-900 text-slate-400 border border-slate-100 dark:border-slate-800'}`}
                     >
                       {i + 1}
                     </button>
